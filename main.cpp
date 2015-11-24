@@ -1,6 +1,7 @@
 #include "SeamCarver.h"
 #include <sys/time.h>
 #include <cstdio>
+#include <stdlib.h>
 
 double get_time() {
     struct timeval tv;
@@ -15,6 +16,8 @@ int main(int argc, char **argv) {
 	Mat_<Vec3b> image = imread(argv[1]);
     int cut_horizontal = atoi(argv[2]);
     int cut_vertical = atoi(argv[3]);
+    printf("%d\n", cut_horizontal);
+    printf("%d\n", cut_vertical);
     // Mat_<Vec3b> image = imread("lighthouse.jpg");
     // Mat_<Vec3b> image = imread("bench.jpg");
     if (!image.data) {

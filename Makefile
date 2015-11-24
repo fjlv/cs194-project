@@ -1,5 +1,5 @@
 CC      = g++
-CFLAGS  = -pedantic -Wall -Wextra -O2
+CFLAGS  = -pedantic -Wall -Wextra -pg
 OPENCV  = -I/usr/include/opencv  /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so \
 	  /usr/lib/x86_64-linux-gnu/libopencv_contrib.so \
 	  /usr/lib/x86_64-linux-gnu/libopencv_core.so \
