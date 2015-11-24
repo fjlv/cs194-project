@@ -1,1 +1,1 @@
-# cs194-project
+# Seam Carver
