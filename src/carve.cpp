@@ -13,7 +13,7 @@ double get_time() {
 int main(int argc, char **argv) {
     // Mat_<Vec3b> image = imread("surfing.png");
     // Mat_<Vec3b> image = imread("pic2.png");
-	Mat_<Vec3b> image = imread(argv[1]);
+    Mat_<Vec3b> image = imread(argv[1]);
     int cut_horizontal = atoi(argv[2]);
     int cut_vertical = atoi(argv[3]);
     // Mat_<Vec3b> image = imread("lighthouse.jpg");
