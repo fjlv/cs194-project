@@ -1,4 +1,5 @@
 #include "SeamCarver.h"
+#include <sys/time.h>
 
 double get_time() {
     struct timeval tv;
