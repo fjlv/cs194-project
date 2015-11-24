@@ -67,8 +67,10 @@ void SeamCarver::computeEnergyAfterSeamRemoval(vector<uint> seam) {
 
 vector<uint> SeamCarver::findVerticalSeam() {
     vector<uint> seam(image.rows);
-    unsigned int distTo[image.rows][image.cols];	// Save the shortest distance from any of the top pixels
-    short edgeTo[image.rows][image.cols];			// Which of the the three top pixels, the shortest path came from
+    unsigned int** distTo = new unsigned int*[image.rows];	// Save the shortest distance from any of the top pixels
+    for (int i = 0; i < image.rows; i++) { distTo[i] = new unsigned int[image.cols]; }
+    short** edgeTo = new short*[image.rows];	                // Save the shortest distance from any of the top pixels
+    for (int i = 0; i < image.rows; i++) { edgeTo[i] = new short[image.cols]; }
 
     // Initialize the distance and edge matrices
     for (int i = 0; i < image.rows; ++i) {

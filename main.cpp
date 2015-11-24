@@ -1,6 +1,6 @@
 #include "SeamCarver.h"
 #include <sys/time.h>
-
+#include <cstdio>
 
 double get_time() {
     struct timeval tv;
@@ -9,10 +9,12 @@ double get_time() {
     return tv.tv_sec + tv.tv_usec * 1e-6;
 }
 
-int main(void) {
+int main(int argc, char **argv) {
     // Mat_<Vec3b> image = imread("surfing.png");
     // Mat_<Vec3b> image = imread("pic2.png");
-	Mat_<Vec3b> image = imread("20151123_190611.jpg");
+	Mat_<Vec3b> image = imread(argv[1]);
+    int cut_horizontal = atoi(argv[2]);
+    int cut_vertical = atoi(argv[3]);
     // Mat_<Vec3b> image = imread("lighthouse.jpg");
     // Mat_<Vec3b> image = imread("bench.jpg");
     if (!image.data) {
@@ -30,12 +32,12 @@ int main(void) {
     // vector<uint> sm = s.findVerticalSeam();
     // s.showVerticalSeam(sm);
 
-    for (int i = 0; i < 160; ++i) {
+    for (int i = 0; i < cut_horizontal; ++i) {
         vector<uint> seam = s.findHorizontalSeam();
         // s.showHorizontalSeam(seam);
         s.removeHorizontalSeam(seam);
     }
-    for (int i = 0; i < 150; ++i) {
+    for (int i = 0; i < cut_vertical; ++i) {
         vector<uint> seam = s.findVerticalSeam();
         // s.showVerticalSeam(seam);
         s.removeVerticalSeam(seam);
