@@ -10,7 +10,7 @@
 int main() {
 //	Mat_<Vec3b> image = imread("surfing.png");
 //	Mat_<Vec3b> image = imread("pic2.png");
-	Mat_<Vec3b> image = imread("stuff.jpg");
+	Mat_<Vec3b> image = imread("20151123_190611.jpg");
 //	Mat_<Vec3b> image = imread("lighthouse.jpg");
 //	Mat_<Vec3b> image = imread("bench.jpg");
 	if (!image.data) {
