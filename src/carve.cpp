@@ -1,31 +1,51 @@
 #include <sys/time.h>
+#include <getopt.h>
 #include <cstdio>
 
 #include "seamcarver.h"
 
-double get_time() {
+double get_time() 
+{
     struct timeval tv;
     struct timezone tz;
     gettimeofday(&tv, &tz);
     return tv.tv_sec + tv.tv_usec * 1e-6;
 }
 
-int main(int argc, char **argv) {
-    // Mat_<Vec3b> image = imread("surfing.png");
-    // Mat_<Vec3b> image = imread("pic2.png");
-    Mat_<Vec3b> image = imread(argv[1]);
-    int cut_horizontal = atoi(argv[2]);
-    int cut_vertical = atoi(argv[3]);
-    // Mat_<Vec3b> image = imread("lighthouse.jpg");
-    // Mat_<Vec3b> image = imread("bench.jpg");
+int main(int argc, char **argv) 
+{
+    char c;
+    char *filepath;
+    int cut_horizontal;
+    int cut_vertical;
+    int timed = 0;
+    int show = 0;
+
+    while ((c = getopt(argc, argv, "f:h:v:ts")) != -1) {
+        switch (c) {
+        case 'f': filepath = optarg; break;
+        case 'h': cut_horizontal = (int)strtol(optarg, NULL, 10); break;
+        case 'v': cut_vertical = (int)strtol(optarg, NULL, 10); break;
+        case 't': timed = 1; break;
+        case 's': show = 1; break;
+        default: exit(1); 
+        }
+    }
+
+    Mat_<Vec3b> image = imread(filepath);
+
     if (!image.data) {
         cout << "Invalid input";
         image.release();
         return -1;
     }
 
-    imshow("Original Image", image);
+    if (show) {
+        imshow("Original Image", image);
+    }
+
     SeamCarver s(image);
+
     // imshow("Gradient", s.energy);
     // Mat tmp = s.energy/195075.0*255.0;
     // s.energy.convertTo(tmp,CV_8U,-1);
@@ -33,6 +53,7 @@ int main(int argc, char **argv) {
     // vector<uint> sm = s.findVerticalSeam();
     // s.showVerticalSeam(sm);
 
+    double start = get_time();
     for (int i = 0; i < cut_horizontal; ++i) {
         vector<uint> seam = s.findHorizontalSeam();
         // s.showHorizontalSeam(seam);
@@ -43,13 +64,23 @@ int main(int argc, char **argv) {
         // s.showVerticalSeam(seam);
         s.removeVerticalSeam(seam);
     }
-    // imshow("Carved Image", s.getImage());
+    double elapsed = get_time() - start;
 
-    imshow("Carved Image", s.getImage());
+    if (timed) {
+        printf("Elapsed time: %.3lf seconds\n", elapsed);
+    }
+
+    Mat_<Vec3b> output = s.getImage();
+    imwrite("carved.jpg", output);
+
+    if (show) {
+        imshow("Carved Image", output);
+        while (waitKey(20) != 27);
+    }
+
     // cout << "Seam Length: " << seam.size() << endl;
     // s.showImage();
     // s.showEnergy();
-    while (waitKey(20) != 27);
 
     // imwrite("bench_carved.jpg", s.getImage());
 

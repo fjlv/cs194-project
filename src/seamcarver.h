@@ -19,35 +19,35 @@ class SeamCarver {
 
 public:
     SeamCarver(Mat_<Vec3b> im) {
-            image = im;
-            duplicate = image;
-            energy = Mat(image.rows, image.cols, CV_32S, Scalar(195075));
-            computeFullEnergy();
+        image = im;
+        duplicate = image;
+        energy = Mat(image.rows, image.cols, CV_32S, Scalar(195075));
+        computeFullEnergy();
     }
 
     virtual ~SeamCarver() {
-            duplicate.release();
-            energy.release();
+        duplicate.release();
+        energy.release();
     }
 
     // Show the image
     void showImage() {
-            imshow("Image", image);
+        imshow("Image", image);
     }
 
     // Show the energy matrix as an image
     void showEnergy() {
-            imshow("Energy", energy);
+        imshow("Energy", energy);
     }
 
     // Return the image
     Mat_<Vec3b> getImage() {
-            return image;
+        return image;
     }
 
     // Return the value of the energy at a particular pixel
     unsigned int getEnergy(unsigned int row, unsigned int col) {
-            return energy.at<uint32_t>(row, col);
+        return energy.at<uint32_t>(row, col);
     }
 
     // Find the optimal seams
