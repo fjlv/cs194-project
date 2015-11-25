@@ -31,6 +31,8 @@ ifeq ($(UNAME), Linux)
 		 -lopencv_highgui -lopencv_imgproc -lopencv_legacy -lopencv_ml \
 		 -lopencv_objdetect -lopencv_ocl -lopencv_photo -lopencv_stitching \
 		 -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videostab
+	OPENCL_INC = /usr/local/cuda-6.5/include
+	OPENCL_LIB = /usr/local/cuda-6.5/lib64
 else ifeq ($(UNAME), Darwin)
 	OPENCV = -I/usr/local/Cellar/opencv/2.4.12/include/opencv \
 		 -I/usr/local/Cellar/opencv/2.4.12/include -L/usr/local/Cellar/opencv/2.4.12/lib \
@@ -39,18 +41,30 @@ else ifeq ($(UNAME), Darwin)
 		 -lopencv_ml -lopencv_nonfree -lopencv_objdetect -lopencv_ocl -lopencv_photo \
 		 -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video \
 		 -lopencv_videostab
+	OPENCL_LIB = -framework OpenCL -lOpenCL
 endif
 
-all: carve
+all: scarve
 
-carve: src/carve.cpp bin/seamcarver.o
+scarve: src/scarve.cpp bin/seamcarver.o
 	@echo CC $<
 	@$(CC) $(CFLAGS) -o $@ $^ $(OPENCV)
+	
+pcarve: src/pcarve.cpp bin/clhelp.o
+	@echo CC $<
+	@$(CC) $(CFLAGS) -o $@ $^ $(OPENCV) $(OPENCL_LIB)
+
+bin/pcarve.o: src/pcarve.cpp src/clhelp.h
+	@echo CC $<
+	@$(CC) $(CFLAGS) -o $@ -c $< -I$(OPENCL_INC)
+
+bin/clhelp.o: src/clhelp.cpp src/clhelp.h
+	@echo CC $<
+	@$(CC) $(CFLAGS) -o $@ -c $< -I$(OPENCL_INC)
 
 bin/seamcarver.o: src/seamcarver.cpp src/seamcarver.h
 	@echo CC $<
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	@echo RM "carve bin/seamcarver.o"
-	@rm -f carve bin/seamcarver.o
+	rm -f scarve pcarve scarved.jpg bin/*

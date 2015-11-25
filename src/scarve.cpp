@@ -71,7 +71,7 @@ int main(int argc, char **argv)
     }
 
     Mat_<Vec3b> output = s.getImage();
-    imwrite("carved.jpg", output);
+    imwrite("scarved.jpg", output);
 
     if (show) {
         imshow("Carved Image", output);
