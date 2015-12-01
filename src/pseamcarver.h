@@ -7,6 +7,7 @@ using namespace cv;
 using namespace std;
 
 class SeamCarver {
+public:
     Mat_<Vec3b> image;
     Mat_<Vec3b> duplicate;
     Mat energy;
@@ -17,7 +18,6 @@ class SeamCarver {
     // Compute the energy function only for the pixels affected by seam-removal
     void computeEnergyAfterSeamRemoval(vector<uint> seam);
 
-public:
     SeamCarver(Mat_<Vec3b> im) {
         image = im;
         duplicate = image;

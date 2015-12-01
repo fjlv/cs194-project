@@ -2,7 +2,7 @@
 #include <getopt.h>
 #include <cstdio>
 
-#include "seamcarver.h"
+#include "sseamcarver.h"
 
 double get_time() 
 {
@@ -16,8 +16,8 @@ int main(int argc, char **argv)
 {
     char c;
     char *filepath;
-    int cut_horizontal;
-    int cut_vertical;
+    int cut_horizontal = 0;
+    int cut_vertical = 0;
     int timed = 0;
     int show = 0;
 
